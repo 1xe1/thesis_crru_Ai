@@ -13,7 +13,7 @@ if not os.path.exists(save_dir):
 choice = input("กรุณาเลือก: \n1. แสดงภาพ\n2. ไม่ต้องแสดงภาพ\nเลือก: ")
 
 # โหลดโมเดล YOLOv8 ที่ฝึกฝนไว้
-model = YOLO('model/helmet50.pt')  # เปลี่ยน path ให้ตรงกับที่เก็บโมเดลของคุณ
+model = YOLO('model/helmet_v2.pt')  # เปลี่ยน path ให้ตรงกับที่เก็บโมเดลของคุณ
 
 # เปิดกล้อง
 cap = cv2.VideoCapture(0)  # 0 สำหรับกล้องหลัก
