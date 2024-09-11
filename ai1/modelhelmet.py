@@ -1,13 +1,12 @@
 import cv2
 from ultralytics import YOLO
 import time
-import os
 from datetime import datetime
+from pathlib import Path
 
 # สร้างโฟลเดอร์สำหรับบันทึกภาพหากยังไม่มี
-save_dir = 'WithOutHelmet'
-if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
+save_dir = Path('WithOutHelmet')
+save_dir.mkdir(parents=True, exist_ok=True)
 
 # รับค่าเลือกว่าจะต้องการแสดงภาพหรือไม่
 choice = input("กรุณาเลือก: \n1. แสดงภาพ\n2. ไม่ต้องแสดงภาพ\nเลือก: ")
@@ -46,7 +45,7 @@ while True:
             if label != 'With Helmet':  # เปลี่ยน 'With Helmet' ให้ตรงกับคลาสของหมวกกันน็อคที่ต้องการ
                 # สร้างชื่อไฟล์ที่มีวันที่และเวลา
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-                image_filename = os.path.join(save_dir, f'{timestamp}_WithoutHelmet.jpg')
+                image_filename = save_dir / f'{timestamp}_WithoutHelmet.jpg'
 
                 # ดึงพิกัดของกรอบ
                 x1, y1, x2, y2 = map(int, detections[i])
@@ -56,7 +55,7 @@ while True:
                 cv2.putText(frame, f'{label} {confidence:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)  # วาดข้อความ
 
                 # บันทึกภาพไปยังโฟลเดอร์ WithOutHelmet
-                cv2.imwrite(image_filename, frame)
+                cv2.imwrite(str(image_filename), frame)
                 print(f"Saved image: {image_filename}")
 
     # หากเลือก 1 ให้แสดงภาพที่มีการวาดกรอบและข้อความ
