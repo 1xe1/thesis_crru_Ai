@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 from datetime import datetime
 from pathlib import Path
-import shutil
+import os
 import time
 
 # สร้างโฟลเดอร์ต่างๆ หากยังไม่มี
@@ -20,6 +20,20 @@ plate_model = YOLO('model/licens_v2.pt')  # โมเดลตรวจจับ
 
 # เปิดกล้อง
 cap = cv2.VideoCapture(0)  # เปิดกล้อง (0 สำหรับกล้องหลัก)
+
+# ถามผู้ใช้ว่าอยากแสดงภาพหรือไม่
+user_input = input("กรุณาเลือก: (1) ไม่แสดงภาพ (2) แสดงภาพ: ")
+
+# ตรวจสอบการเลือกของผู้ใช้
+if user_input == '1':
+    show_image = False
+    print("ตั้งค่า: ไม่แสดงภาพ")
+elif user_input == '2':
+    show_image = True
+    print("ตั้งค่า: แสดงภาพ")
+else:
+    print("เลือกไม่ถูกต้อง ระบบจะตั้งค่าเป็นไม่แสดงภาพโดยอัตโนมัติ")
+    show_image = False
 
 def detect_helmet(frame):
     """ตรวจจับหมวกกันน็อค"""
@@ -100,16 +114,16 @@ while True:
             print(f"ไม่พบป้ายทะเบียน: บันทึกภาพที่ {new_filename}")
 
         # ลบภาพเดิมในโฟลเดอร์ WithOutHelmet หลังจากบันทึกแล้ว
-        image_filename.unlink()  # ลบไฟล์
-        print(f"ลบไฟล์เดิม: {image_filename}")
+        try:
+            os.remove(image_filename)  # ลบไฟล์
+            print(f"ลบไฟล์เดิม: {image_filename}")
+        except Exception as e:
+            print(f"ข้อผิดพลาดในการลบไฟล์: {e}")
 
-    # แสดงผลลัพธ์แบบเรียลไทม์
-    cv2.imshow('Helmet Detection', frame)
-
-    # กดปุ่ม 'q' เพื่อออกจากโปรแกรม
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
+    # แสดงผลลัพธ์แบบเรียลไทม์ถ้าการตั้งค่าเปิดการแสดงภาพอยู่
+    if show_image:
+        cv2.imshow('Helmet Detection', processed_frame)
+        
     # ดีเลย์ 1 วินาทีต่อการตรวจจับ
     time.sleep(1)
 

@@ -2,8 +2,8 @@ import requests
 import json
 
 url = "https://api.iapp.co.th/license-plate-recognition/file"
-path = "images\Test6.jpg"  # Path to your image file
-file_name = "Test6.png"
+path = "images\Test5.jpg"  # Path to your image file
+file_name = "Test.png"
 
 payload = {}
 files = [
