@@ -16,7 +16,7 @@ if not os.path.exists(destination_folder):
 # API URL และ header
 url = "https://api.iapp.co.th/license-plate-recognition/file"
 headers = {
-    'apikey': 'cwHWxIH8RxwZQyR0yrwVWm2ktFjTTPuj'
+    'apikey': 'NisHda0fWw0qMtHBicjdIXQa696wn8F9'
 }
 
 # เชื่อมต่อกับฐานข้อมูล
@@ -60,7 +60,7 @@ def insert_detection_records(detections, found_plates):
         student_id = found_plates.get(lp_number)
 
         if student_id:  # ตรวจสอบว่ามี student_id หรือไม่
-            file_path = os.path.join(folder_path, file_name)
+            file_path = os.path.join("http://localhost/thesis_crru_Ai/ai1/StudentWithoutHelmet/", file_name)
             image_url = f"/{file_path}"  # เปลี่ยนให้เป็น URL ของภาพตามต้องการ
 
             # เพิ่มข้อมูลลงในฐานข้อมูล พร้อมระบุ DetectionID
